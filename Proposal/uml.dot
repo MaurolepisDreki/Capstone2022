@@ -1,0 +1,33 @@
+digraph UML_Overview {
+	labelloc="t"
+	label="Chess Backend {UML}"
+	graph [splines=false]
+
+	node [shape=record]
+	
+	"Class MD.Server.HttpListener"[label=<{<b>Class MD.Server.HttpListener</b> | - _socketIndex : List&lt;SocketRecord&gt;<br align="left"/>- _endpointIndex : List&lt;SocketRecord&gt;<br align="left"/>- _alive : bool <br align="left"/>|+ AddAddr( EndPoint ) : void<br align="left"/>+ DelAddr( EndPoint ) : void<br align="left"/>+ Start() : void<br align="left"/>+ Stop() : void<br align="left"/> }>]
+	"Class MD.Server.HttpListener.SocketRecord"[label=<{<b>Class MD.Server.HttpListener.SocketRecord</b> | + Target : EndPoint<br align="left"/>+ Socket : Socket<br align="left"/>+ Listener : Thread<br align="left"/>}>]
+	"Class MD.StdLib.Rule"[label=<{<b>Class MD.StdLib.Rule</b> | - _rule : deligate bool( )}>]
+# Dependency
+	edge [arrowhead=vee style=dashed]
+	Server -> "Class MD.Server.HttpListener"
+
+# Inheritance
+	edge [dir=back arrowtail=empty style=""]
+
+# Implimentation
+	edge [dir=back arrowtail=empty style=dashed]
+  "Class MD.Server.HttpParser" -> "Class MD.StdLib.Parser"
+
+# Composition
+	edge [dir=back arrowtail=diamond]
+	"Class MD.Server.HttpListener" -> "Class MD.Server.HttpParser"
+	"Class MD.StdLib.Parser" -> "Class MD.StdLib.State"
+	"Class MD.StdLib.Parser" -> "Class MD.StdLib.Rule"
+	"Class MD.StdLib.State" -> "Class MD.StdLib.Rule"
+
+# Aggregation (ref to shared resource)
+	edge [xdir=back arrowtail=odiamond]
+	"Class MD.StdLib.Parser" -> "Class MD.StdLib.Token"
+	"Class MD.Server.HttpListener" -> "Class MD.Server.HttpListener.SocketRecord"
+}

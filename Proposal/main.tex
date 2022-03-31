@@ -1,0 +1,61 @@
+\documentclass[11pt,twoside,letterpaper]{article}
+
+\usepackage{titling}
+\usepackage{minted}
+\usemintedstyle{perldoc}
+\usepackage{graphics}
+
+\newcommand{\subtitle}[1]{%
+\posttitle{%
+\par\end{center}
+\begin{center}\large#1\end{center}
+\vskip0.5em}%
+}
+
+\newcommand{\subject}[1]{%
+\pretitle{%
+\begin{center}#1\end{center}
+\begin{center}\LARGE}%
+}
+
+\begin{document}
+\title{ A Chess Engine using a Web-Browser Front-end }
+\subtitle{ A Capstone Project Proposal }
+\subject{ CS1410 \& CS1810 }
+\author{ Nile Aagard ``Maurolepis Dreki" \thanks{ Aperio Ostia Inferum! } }
+\date{ Spring Semester 2022 }
+\maketitle
+
+\section{ Objective }
+To build a RESTful Chess Engine that can be interacted with via a standard web-browser.
+
+The user interface should include an easy-to-read list of moves that have been made, as well as a graphical representation of the board's current state that can be interfaced with GUI input devices.
+For simplicity, the game will not include a timer and employ an artificial opponent who will always take black. 
+In order to save games, moves will be recorded via the query string and temporarily cached in the back-end to prevent overwork by the server.
+Moves will be made in two steps: first by sending a GET request (using AJAX) containing the user's move and repeating that request until it receives a redirect containing the opponent's move, and then by redirecting to that location.
+
+\subsection{ Modivation }
+As out of practice as I may be, I am still a chess player; chess is a turn-based, finite-sum, perfect-knowledge stratagy game of uncertain origins and numerous variations in immitation of medieval warfare that is played in nearly every nation around the world.
+My continuing intrest in the game is primarily due to its relationship with Game Theory and The Art of War, where the game ceases to be simply the result of its mechanics and becomes a tactical simulation between two contending entities.
+And my secondary intrest in the game is in applying Game Theory via Artificial Inteligence, this game being among the more trivial appliations to that end.
+
+However, the answer to the question of why I would undertake this as my capstone project is far more boring: because it is the only thing that holds any interest for me that is not so trivial as to be able to undertake in the course of a day, nor so complex as to take me beyond the allotted time such as to miss the project's deadline.
+Normally on a project like this I would spend months trying to get the AI to CM2000's level in the name of creating a quality program, but for this project I am going to focus on building the server and user iterface and leave the artificial player to making random moves\footnote{ This will change if I have time. } in order to reduce the initial complexity of the program.
+
+Choosing this project also gives me the opportunity to explore REST APIs at the H4x0r level, meaning that by this project I intend to learn how to make the browser and its associated protocols behave in ways that they were never designed to.
+
+\section{ Basic Design }
+Of all the elements and attributes I will use (client-side), the ones I know for certain are \mintinline{HTML}{<img>} for the pieces, \mintinline{HTML}{<div>} for the cells, \mintinline{HTML}{<table>} for the move list, and \mintinline{HTML}{<thead>}, \mintinline{HTML}{<tbody>}, \mintinline{HTML}{<th>}, \mintinline{HTML}{<tr>}, \mintinline{HTML}{<td>}, \&c. should be able to go without saying.
+I'll also likely be creating a \mintinline{HTML}{<footer>} as well as a \mintinline{HTML}{<header>} to provide information about the page/game, along with the \mintinline{HTML}{<p>} and \mintinline{HTML}{<h1>} tags to populate them.
+
+The server-side, the program is going to look something like:\footnote{ I am aware this is terribly incomplete, but I have have just wasted an entier day trying to write fake-code when I could have had the design further evolved by writting the real code. }
+
+\includegraphics*{ uml.png }
+
+\subsection{ Immediate Actions }
+In the next week I'm going to further invesitgate the tools I'll require for undertaking this project, like \mintinline{Shell}{npm} for JavaScript Library management and .NET Core 6.0 for any builtin HTTP Server objects that I can hijack.
+
+NOTE: before we can impliment any of the front-end, we must at least be able to communicate between the server and the user agent using HTTP/GET protocol.  This is not difficult given the limmited scope of this project, but it is still prerequisite.
+
+\end{document}
+
