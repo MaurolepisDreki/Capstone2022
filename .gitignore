@@ -1,0 +1,8 @@
+Proposal/_minted-main/**
+Proposal/*.aux
+Proposal/*.log
+Proposal/*.pdf
+Proposal/*.png
+Server/*/obj/**
+Server/*/bin/**
+
