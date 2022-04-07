@@ -6,7 +6,7 @@ namespace MD.StdLib.Logger {
 	public abstract class Sink {
 		// Section: Controller Interface
 		private static MD.StdLib.Container.RingQueue<MD.StdLib.Logger.Sink> registery = new MD.StdLib.Container.RingQueue<MD.StdLib.Logger.Sink>();
-		private static System.Threading.Thread writter = new System.Threading.Thread();
+		private static System.Threading.Thread writter = new System.Threading.Thread( WritterLoop );
 
 		private static void WritterLoop() {
 			while( !registery.IsEmpty ) {
@@ -16,21 +16,21 @@ namespace MD.StdLib.Logger {
 		}
 
 		// Section: Instance
-		private MD.StdLib.Container.PriorityQueue<Message> messages;
+		protected MD.StdLib.Container.PriorityQueue<Message> messages;
 		
 		protected static bool __compfn( Message a, Message b ) {
 			return a > b;
 		}
 
-		public Sink() : this( Sink.__comfn ) {}
+		public Sink() : this( Sink.__compfn ) {}
 		public Sink( MD.StdLib.Container.DSorter<Message> swapon ) {
-			messages = new PriorityQueue<Message>( swapon );
+			messages = new MD.StdLib.Container.PriorityQueue<Message>( swapon );
 		}
 		
 		protected abstract bool Flush();
 		
 		public void Write( Message msg ) {
-			messages.Enqueue( msg );
+			messages.Push( msg );
 		}
 	}
 

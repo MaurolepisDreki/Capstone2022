@@ -1,4 +1,4 @@
-using MD.StdLib.Logging;
+using MD.StdLib.Logger;
 
 namespace CS1410.Capstone {
 	class Launcher {

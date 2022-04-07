@@ -17,9 +17,10 @@ namespace MD.HTTP {
 				ctrl = controller;
 				addr = default( EndPoint );
 				sock = default( Socket );
-				actor = new Thread( ThreadDo );
+				actor = default( Thread );
 				sepku = false;
 
+				actor = new Thread( ThreadDo );
 				SetAddr( address );
 			}
 
@@ -32,7 +33,7 @@ namespace MD.HTTP {
 
 				// TODO: Change Addr
 				addr = address;
-				sock = Socket( addr.AddressFamily, System.Net.Sockets.SocketType, System.Net.Sockets.ProtocolType.Tcp );
+				sock = new Socket( addr.AddressFamily, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp );
 				sock.Bind( addr );
 
 				actor.Start();
@@ -46,7 +47,7 @@ namespace MD.HTTP {
 						sock.Accept();
 					}
 				}
-				sock.Shutdown();
+				sock.Shutdown( System.Net.Sockets.SocketShutdown.Both );
 			}
 		}
 	}

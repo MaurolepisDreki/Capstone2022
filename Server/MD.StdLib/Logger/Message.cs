@@ -28,9 +28,9 @@ namespace MD.StdLib.Logger {
 			} else if( a.lvl != b.lvl ) {
 				return a.lvl < b.lvl;
 			} else if( a.src.ID != b.src.ID ) {
-				return a.src.ID < b.src.ID;
+				return System.String.Compare( a.src.ID, b.src.ID ) > 0;
 			} else if( a.msg != b.msg ) {
-				return a.msg < b.msg;
+				return System.String.Compare( a.msg, b.msg ) > 0;
 			} else {
 				return false;
 			}
@@ -42,9 +42,9 @@ namespace MD.StdLib.Logger {
 			} else if( a.lvl != b.lvl ) {
 				return a.lvl > b.lvl;
 			} else if( a.src.ID != b.src.ID ) {
-				return a.src.ID > b.src.ID;
+				return System.String.Compare( a.src.ID, b.src.ID ) < 0;
 			} else if( a.msg != b.msg ) {
-				return a.msg > b.msg;
+				return System.String.Compare( a.msg, b.msg ) < 0;
 			} else {
 				return false;
 			}
