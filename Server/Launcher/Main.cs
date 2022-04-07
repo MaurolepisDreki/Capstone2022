@@ -4,12 +4,12 @@ namespace CS1410.Capstone {
 	class Launcher {
 		public static void Main() {
 			// TODO: Configure Logger
-			Sink consoleLog = new ConsoleSink( Level.Info );
+			Sink consoleLog = new ConsoleSink( Level.Status );
 			consoleLog.ReadFrom( "Launcher" );
 
 			Source myLog = Source.Get( "Launcher" );
 
-			myLog.Info( "Logger is setup" );
+			myLog.Notice( "Logger is setup" );
 		}
 	}
 }
