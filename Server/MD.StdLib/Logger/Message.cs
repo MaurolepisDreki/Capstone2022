@@ -23,7 +23,7 @@ namespace MD.StdLib.Logger {
 		}
 
 		public override string ToString() {
-			return $"{dts}\t{lvl}:\t[{src}]\t{msg}";
+			return $"{dts}\t{lvl}\t[{src.ID}]:\t{msg}";
 		}
 
 		public static bool operator <( Message a, Message b ) {
