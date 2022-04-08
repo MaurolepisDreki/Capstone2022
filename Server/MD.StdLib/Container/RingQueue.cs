@@ -70,14 +70,14 @@ namespace MD.StdLib.Container {
 				// Itterate over all nodes
 				while( ! System.Object.ReferenceEquals( ptr!.Next, start ) ) {
 					// Drop all matching nodes
-					while( ! System.Object.ReferenceEquals( ptr!.Next, start ) && ptr!.Next!.Value.Equals( value ) ) {
+					while( ! System.Object.ReferenceEquals( ptr!.Next, start ) && ptr!.Next!.Value!.Equals( value ) ) {
 						ptr!.Next = ptr!.Next!.Next;
 					}
 					ptr = ptr!.Next;
 				}
 
 				// CASE: start node matches
-				if( start!.Value.Equals( value ) ) {
+				if( start!.Value!.Equals( value ) ) {
 					// CASE: 1 item in container
 					if( System.Object.ReferenceEquals( start, ptr ) ) {
 						ptr = ptr!.Next = null;

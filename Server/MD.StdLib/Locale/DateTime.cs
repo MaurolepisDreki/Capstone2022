@@ -71,6 +71,13 @@ namespace MD.StdLib.Locale {
 			}
 		}
 
+		public override bool Equals( Object? obj ) {
+			if( obj is MD.StdLib.Locale.DateTime ) {
+				return this == (MD.StdLib.Locale.DateTime)obj;
+			}
+			return false;
+		}
+
 		public static bool operator ==( MD.StdLib.Locale.DateTime a, MD.StdLib.Locale.DateTime b ) {
 			return a.years == b.years && a.days == b.days;
 		}
