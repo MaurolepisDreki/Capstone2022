@@ -26,22 +26,29 @@ namespace MD.StdLib.Locale {
 			// 5-place precision brings time to nearly seconds
 			StringBuilder dtString = new StringBuilder();
 			dtString.Append( $"{years:D4}.{Day:D3}." );
-			dtString.Append( '0', precision - (int)Math.Ceiling( Math.Log10( Time ) ) );
-			dtString.Append( Time );
+			int timeLength = (int)Math.Ceiling( Math.Log10( Time ) );
+			if( precision > 0 ) {
+				if( precision > timeLength ) {
+					dtString.Append( '0', precision - timeLength );
+				}
+				dtString.Append( Time );
+			}
 			return dtString.ToString();
 		}
 
 		// Main Constructor: import DTS "Now" from System.DateTime
-		public DateTime() : this( System.DateTime.UtcNow ) {} //< use runtime value as default
-		public DateTime( System.DateTime dts ) {
+		public DateTime( int sigdig = 5 ) : this( System.DateTime.UtcNow, sigdig ) {} //< use runtime value as default
+		public DateTime( System.DateTime dts, int sigdig = 5 ) {
 			years = dts.Year;
 
 			// Convert Time
-			days = (((dts.Millisecond / 1000 
+			days = ((((decimal)dts.Millisecond / 1000 
 						+ dts.Second) / 60
 						+ dts.Minute ) / 60
 						+ dts.Hour ) / 24
 						+ dts.DayOfYear;
+
+			precision = sigdig;
 		}
 
 		public static bool operator <( MD.StdLib.Locale.DateTime a, MD.StdLib.Locale.DateTime b ) {

@@ -22,6 +22,10 @@ namespace MD.StdLib.Logger {
 			msg = message;
 		}
 
+		public override string ToString() {
+			return $"{dts}\t{lvl}:\t[{src}]\t{msg}";
+		}
+
 		public static bool operator <( Message a, Message b ) {
 			if( a.dts != b.dts ) {
 				return a.dts < b.dts;

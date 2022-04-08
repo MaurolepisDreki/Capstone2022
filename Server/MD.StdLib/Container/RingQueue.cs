@@ -2,7 +2,7 @@ using MD.StdLib.Container.Attribute;
 using MD.StdLib.Container.Exception;
 
 namespace MD.StdLib.Container {
-	public class RingQueue<T> : IContainer<T>, ICountable, IPeekable<T>, IPushable<T>, IShiftable<T>, ISkipable {
+	public class RingQueue<T> : IContainer<T>, ICountable, IPeekable<T>, IPushable<T>, IShiftable<T>, ISkipable, IPurgeable<T> {
 		private SLNode<T>? _tail;
 
 		public RingQueue() {
@@ -59,6 +59,35 @@ namespace MD.StdLib.Container {
 		public void Skip() {
 			if( ! IsEmpty ) {
 				_tail = _tail!.Next;
+			}
+		}
+
+		public void Purge( T value ) {
+			if( ! IsEmpty ) {
+				SLNode<T>? ptr = _tail;
+				SLNode<T>? start = ptr;
+
+				// Itterate over all nodes
+				while( ! System.Object.ReferenceEquals( ptr!.Next, start ) ) {
+					// Drop all matching nodes
+					while( ! System.Object.ReferenceEquals( ptr!.Next, start ) && ptr!.Next!.Value.Equals( value ) ) {
+						ptr!.Next = ptr!.Next!.Next;
+					}
+					ptr = ptr!.Next;
+				}
+
+				// CASE: start node matches
+				if( start!.Value.Equals( value ) ) {
+					// CASE: 1 item in container
+					if( System.Object.ReferenceEquals( start, ptr ) ) {
+						ptr = ptr!.Next = null;
+					} else {
+						ptr!.Next = ptr!.Next!.Next;
+					}
+				}
+
+				// Update Tail
+				_tail = ptr;
 			}
 		}
 	}

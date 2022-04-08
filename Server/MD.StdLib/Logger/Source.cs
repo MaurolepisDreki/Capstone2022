@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MD.StdLib.Logger {
 	public class Source {
-		private static Dictionary<string, Source> registery;
+		private static Dictionary<string, Source> registery = new Dictionary<string, Source>();
 
 		private static void Register( Source source ) {
 			registery.Add( source.ID, source );
@@ -27,6 +27,21 @@ namespace MD.StdLib.Logger {
 			Source.Register( this );
 		}
 
+		// @breif register a sink with the source for writting
+		public void AddSink( Sink sink ) {
+			if( ! sinks.Contains( sink ) ) {
+				sinks.Add( sink );
+			}
+		}
+
+		// @breif unregister a sink from the source
+		public void RemoveSink( Sink sink ) {
+			if( sinks.Contains( sink ) ) {
+				sinks.Remove( sink );
+			}
+		}
+
+		// @breif write a message to all registered sinks
 		public void Write( Level level, string msg ) {
 			if( level == Level.None ) {
 				Source src = Source.Get( "Logger" );

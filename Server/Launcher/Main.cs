@@ -10,6 +10,8 @@ namespace CS1410.Capstone {
 			Source myLog = Source.Get( "Launcher" );
 
 			myLog.Notice( "Logger is setup" );
+
+			consoleLog.Close();
 		}
 	}
 }
