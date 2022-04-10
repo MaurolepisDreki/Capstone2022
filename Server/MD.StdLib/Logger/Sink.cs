@@ -43,6 +43,8 @@ namespace MD.StdLib.Logger {
 			messages = new MD.StdLib.Container.PriorityQueue<Message>( swapon );
 			sources = new System.Collections.Generic.List<Source>();
 			SetLevels( lvl, implicitLevels );
+
+			Sink.Register( this );
 		}
 
 		public void SetLevels( Level lvl, bool implicitLevels = true ) {
@@ -96,7 +98,10 @@ namespace MD.StdLib.Logger {
 
 		public override bool Flush() {
 			// TODO: Colorize output (MD.StdLib.Logger.ConsoleSink.Flush)
-			Console.WriteLine( messages.Shift() );
+			if( ! messages.IsEmpty ) {
+				Console.WriteLine( messages.Shift() );
+			}
+
 			return true; //< There is no known way to check if STDOUT is good, so we assume it is always good.  (Shame on us!)
 		}
 	}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -5,13 +6,15 @@ using System.Threading;
 using MD;
 
 namespace MD.HTTP {
-	class Listener {
-		private struct Instance {
+	public class Listener {
+		private class Instance {
 			private Listener ctrl;
 			private EndPoint addr;
 			private Socket sock; 
 			private Thread actor;
 			private bool sepku;
+
+			public bool Running { get => actor.IsAlive; }
 
 			public Instance( Listener controller, EndPoint address ) {
 				ctrl = controller;
@@ -27,8 +30,7 @@ namespace MD.HTTP {
 			public void SetAddr( in EndPoint address ) {
 				// DO NOT OPERATE ON AN ACTIVE THREAD!
 				if( actor.IsAlive ) {
-					sepku = true;
-					actor.Join();
+					Die();
 				}
 
 				// TODO: Change Addr
@@ -37,6 +39,11 @@ namespace MD.HTTP {
 				sock.Bind( addr );
 
 				actor.Start();
+			}
+
+			public void Die() {
+				sepku = true;
+				actor.Join();
 			}
 
 			private void ThreadDo() {
@@ -49,6 +56,34 @@ namespace MD.HTTP {
 				}
 				sock.Shutdown( System.Net.Sockets.SocketShutdown.Both );
 			}
+		} // END STRUCT INSTANCE
+
+		private List<Instance> listeners;
+		private StdLib.Logger.Source myLog;
+
+		public Listener( string logsrc = "HTTP::Listener" ) {
+			listeners = new List<Instance>();
+			myLog = StdLib.Logger.Source.Get( logsrc );
+		}
+
+		public bool Add( in EndPoint addr ) {
+			listeners.Add( new Instance( this, addr ) );
+			myLog.Notice( $"Listening to {addr}" );
+			return true; //< TODO: check for success
+		}
+
+		public void Wait() {
+			myLog.Status( "Waiting for listeners to stop" );
+			fancyloop_start:
+				bool alldone = true;
+				foreach( Instance inst in listeners )
+					if( !( alldone = ! inst.Running ) ) 
+						break;
+				if( ! alldone ) {
+					Thread.Sleep( 300 );
+					goto fancyloop_start;
+				}
+			myLog.Notice( "All listeners have stopped" );
 		}
 	}
 }
