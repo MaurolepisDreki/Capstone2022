@@ -49,7 +49,7 @@ namespace MD.StdLib.Logger {
 			acceptedLevels = lvl;
 			if( implicitLevels ) {
 				foreach( Level l in Enum.GetValues( typeof( Level ) ) ) {
-					if ( (acceptedLevels & l) != l ) {
+					if ( l == Level.None || (acceptedLevels & l) != l ) {
 						acceptedLevels = acceptedLevels | l;
 					} else {
 						break;
@@ -61,7 +61,8 @@ namespace MD.StdLib.Logger {
 		public abstract bool Flush();
 		
 		public void Write( Message msg ) {
-			messages.Push( msg );
+			if( (msg.Level & acceptedLevels) == msg.Level )
+				messages.Push( msg );
 		}
 
 		// @breif Add a source to the sink
