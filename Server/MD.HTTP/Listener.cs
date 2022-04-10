@@ -33,7 +33,7 @@ namespace MD.HTTP {
 					Die();
 				}
 
-				// TODO: Change Addr
+				// Change Addr
 				addr = address;
 				sock = new Socket( addr.AddressFamily, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp );
 				sock.Bind( addr );
@@ -52,6 +52,7 @@ namespace MD.HTTP {
 					if( sock.Poll( 300, SelectMode.SelectRead ) ) {
 						// Spawn Handler Thread
 						sock.Accept();
+						ctrl.myLog.Status( $"{addr} connected" );
 					}
 				}
 				sock.Shutdown( System.Net.Sockets.SocketShutdown.Both );

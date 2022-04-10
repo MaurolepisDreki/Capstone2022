@@ -12,6 +12,7 @@ namespace MD.StdLib.Logger {
 			while( ! registery.IsEmpty ) {
 				registery.Current.Flush();
 				registery.Skip();
+				Thread.Sleep( 300 );
 			}
 		}
 
