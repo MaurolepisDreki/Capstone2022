@@ -51,8 +51,9 @@ namespace MD.HTTP {
 				while( ! sepku ) {
 					if( sock.Poll( 300, SelectMode.SelectRead ) ) {
 						// Spawn Handler Thread
-						sock.Accept();
-						ctrl.myLog.Status( $"{addr} connected" );
+						Socket tunnel = sock.Accept();
+						ctrl.myLog.Status( $"{addr} connected to {tunnel.RemoteEndPoint}" );
+						(new Thread( ctrl.Processor )).Start( tunnel );
 					}
 				}
 				sock.Shutdown( System.Net.Sockets.SocketShutdown.Both );
@@ -61,6 +62,21 @@ namespace MD.HTTP {
 
 		private List<Instance> listeners;
 		private StdLib.Logger.Source myLog;
+
+		// Processor Thread Routine
+		private void Processor( object soc ) {
+			Socket connection = (Socket)soc;
+			byte[] bytes = new byte[1024];
+
+			while( !connection.Poll( 1000, SelectMode.SelectRead ) || connection.Available != 0) {
+				int bytesRec = connection.Receive( bytes );
+				System.Console.WriteLine( System.Text.Encoding.ASCII.GetString( bytes, 0, bytesRec ) );
+			}
+
+			connection.Shutdown( System.Net.Sockets.SocketShutdown.Both );
+			myLog.Status( $"Connection to {connection.RemoteEndPoint} closed." );
+			connection.Close();
+		}
 
 		public Listener( string logsrc = "HTTP::Listener" ) {
 			listeners = new List<Instance>();
