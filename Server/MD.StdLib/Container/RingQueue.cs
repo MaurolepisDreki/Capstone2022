@@ -2,7 +2,7 @@ using MD.StdLib.Container.Attribute;
 using MD.StdLib.Container.Exception;
 
 namespace MD.StdLib.Container {
-	public class RingQueue<T> : IContainer<T>, ICountable, IPeekable<T>, IPushable<T>, IShiftable<T>, ISkipable, IPurgeable<T> {
+	public class RingQueue<T> : AContainer, Countable, Peekable<T>, Pushable<T>, Shiftable<T>, Skipable, Purgeable<T> {
 		private SLNode<T>? _tail;
 
 		public RingQueue() {

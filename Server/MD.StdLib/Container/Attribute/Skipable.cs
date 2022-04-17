@@ -1,5 +1,5 @@
 namespace MD.StdLib.Container.Attribute {
-	interface ISkipable {
+	interface Skipable {
 		void Skip();
 	}
 }

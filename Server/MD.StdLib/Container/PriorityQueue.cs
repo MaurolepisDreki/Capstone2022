@@ -3,7 +3,7 @@ using MD.StdLib.Container.Attribute;
 using MD.StdLib.Container.Exception;
 
 namespace MD.StdLib.Container {
-	public class PriorityQueue<T> : IContainer<T>, ICountable, IPushable<T>, IShiftable<T>, ISortable {
+	public class PriorityQueue<T> : AContainer, Countable, Pushable<T>, Shiftable<T>, Sortable {
 		private DSorter<T> _swapck;
 		private DLNode<T>? _head;
 		private Mutex _modacc;

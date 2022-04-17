@@ -1,5 +1,5 @@
 namespace MD.StdLib.Container {
-	interface ISortable {
+	interface Sortable {
 		void Sort();
 	}
 }
