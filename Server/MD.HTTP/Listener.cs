@@ -102,6 +102,12 @@ namespace MD.HTTP {
 				}
 			myLog.Notice( "All listeners have stopped" );
 		}
+
+		public void Stop() {
+			myLog.Notice( "Signaling All-Stop" );
+			foreach( Instance inst in listeners )
+				inst.Die();
+		}
 	}
 }
 

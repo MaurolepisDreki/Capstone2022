@@ -16,7 +16,13 @@ namespace CS1410.Capstone {
 			consoleLog.ReadFrom( "HTTP::Listener" );
 			ctrl.Add( new System.Net.IPEndPoint( System.Net.IPAddress.Loopback, 80 ) );
 
-			ctrl.Wait();
+			// Register SIGINT
+			System.Console.CancelKeyPress += delegate( object sender, System.ConsoleCancelEventArgs e ) {
+				e.Cancel = true; //< Don't immediately exit
+				ctrl.Stop(); //< Signal listener to stop
+			};
+
+			ctrl.Wait(); //< Wait for All-Stop
 
 			// Close Logger
 			consoleLog.Close();
