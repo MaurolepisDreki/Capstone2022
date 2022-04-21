@@ -1,5 +1,4 @@
 using MD.StdLib.Container;
-using MD.StdLib.Container.Attribute;
 
 namespace MD.StdLib.Parser {
 	// @breif That place where data streams are reacted to form a State Machine
