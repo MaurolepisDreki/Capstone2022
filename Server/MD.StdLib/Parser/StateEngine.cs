@@ -17,7 +17,7 @@ namespace MD.StdLib.Parser {
 		// @return true if token is returned from external source; false if null
 		public bool GetNextToken() {
 			Token? buff = gettokenCB();
-			tokstrm.Add( buff );
+			PutToken( buff );
 			return buff is not null;
 		}
 
@@ -74,20 +74,24 @@ namespace MD.StdLib.Parser {
 			return tokstrm[ index ];
 		}
 
+		public void PutToken( Token tok, int index = 0 ) {
+			tokstrm.Insert( index, tok );
+		}
+
 		// @breif Replace Tokens in the stream with single token
 		// @param index The index of the first Token to replace
 		// @param count The number of Tokens to replace
 		// @param tok The Token replacing those specified
 		public void ReplaceTokens( int index, int count, Token tok ) {
-			tokstrm.RemoveRange( index, count );
-			tokstrm.Insert( index, tok );
+			tokstrm.RemoveRange( index - count, count );
+			tokstrm.Insert( index - count, tok );
 		}
 
 		// @breif Delete Tokens from the stream
 		// @param index The index of the first Token to remove
 		// @param count The number of Tokens to remove
 		public void DeleteToken( int index = 0, int count = 1 ) {
-			tokstrm.RemoveRange( index, count );
+			tokstrm.RemoveRange( index - count, count );
 		}
 	}
 }
